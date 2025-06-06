@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Bloom.API.props" />
-</Project>
