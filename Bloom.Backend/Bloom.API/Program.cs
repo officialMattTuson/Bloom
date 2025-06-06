@@ -2,6 +2,8 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Bloom.API.Services;
+using Bloom.API.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bloom API", Version = "v1" });
 });
+
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+
 
 var app = builder.Build();
 

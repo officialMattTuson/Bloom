@@ -172,3 +172,7 @@ logs/
 *.rptproj.bak
 healthchecksdb
 workspace.json
+*.pdb
+bin/
+obj/
+
