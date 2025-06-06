@@ -1,0 +1,260 @@
+.trading-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.trading-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.trading-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trading-subtitle {
+  color: #94a3b8;
+  font-size: 16px;
+  margin: 0;
+}
+
+.trading-content {
+  gap: 24px;
+}
+
+.watchlist {
+  margin-top: 20px;
+}
+
+.watchlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(30, 41, 59, 0.3);
+}
+
+.watchlist-item:hover {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.watchlist-item.selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.stock-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stock-symbol {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 16px;
+}
+
+.stock-volume {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.stock-price {
+  text-align: right;
+}
+
+.stock-current {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 16px;
+}
+
+.stock-change {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.market-overview {
+  margin-top: 20px;
+}
+
+.price-display {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.current-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: #e2e8f0;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.price-change {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.market-stats {
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.stat label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  margin: 0;
+}
+
+.stat span {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.order-form {
+  margin-top: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.order-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.order-btn {
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.order-btn.active {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.recommendations {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recommendation-item {
+  padding: 16px;
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.recommendation-symbol {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 16px;
+}
+
+.recommendation-action {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.recommendation-action.buy {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.recommendation-action.sell {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.recommendation-action.hold {
+  background: rgba(251, 191, 36, 0.2);
+  color: #f59e0b;
+}
+
+.recommendation-reason {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.recommendation-metrics {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .trading-content {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .market-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .current-price {
+    font-size: 24px;
+  }
+}

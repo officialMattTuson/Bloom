@@ -1,0 +1,185 @@
+<div class="trading-page fade-in">
+  <div class="trading-header">
+    <h1>Trading Center</h1>
+    <p class="trading-subtitle">Execute trades with AI-powered insights</p>
+  </div>
+
+  <div class="trading-content grid grid-2">
+    <!-- Watchlist -->
+    <div class="watchlist-section">
+      <div class="card">
+        <h2>Watchlist</h2>
+        <div class="watchlist">
+          <div *ngFor="let stock of watchlist" 
+               class="watchlist-item" 
+               (click)="selectStock(stock.symbol)"
+               [class.selected]="stock.symbol === orderForm.symbol">
+            <div class="stock-info">
+              <div class="stock-symbol">{{ stock.symbol }}</div>
+              <div class="stock-volume">Vol: {{ stock.volume }}</div>
+            </div>
+            <div class="stock-price">
+              <div class="stock-current">${{ stock.price | number:'1.2-2' }}</div>
+              <div class="stock-change" [class]="getChangeClass(stock.change)">
+                {{ stock.change >= 0 ? '+' : '' }}{{ stock.change | number:'1.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market Data -->
+    <div class="market-data-section">
+      <div class="card">
+        <h2>Market Data - {{ marketData.symbol }}</h2>
+        <div class="market-overview">
+          <div class="price-display">
+            <span class="current-price">${{ marketData.price | number:'1.2-2' }}</span>
+            <span class="price-change" [class]="getChangeClass(marketData.change)">
+              {{ marketData.change >= 0 ? '+' : '' }}{{ marketData.change | number:'1.2-2' }}
+              ({{ marketData.changePercent >= 0 ? '+' : '' }}{{ marketData.changePercent | number:'1.2-2' }}%)
+            </span>
+          </div>
+          
+          <div class="market-stats grid grid-2">
+            <div class="stat">
+              <label>Bid</label>
+              <span>${{ marketData.bid | number:'1.2-2' }}</span>
+            </div>
+            <div class="stat">
+              <label>Ask</label>
+              <span>${{ marketData.ask | number:'1.2-2' }}</span>
+            </div>
+            <div class="stat">
+              <label>High</label>
+              <span>${{ marketData.high | number:'1.2-2' }}</span>
+            </div>
+            <div class="stat">
+              <label>Low</label>
+              <span>${{ marketData.low | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Form -->
+    <div class="order-form-section">
+      <div class="card">
+        <h2>Place Order</h2>
+        <form class="order-form" (ngSubmit)="submitOrder()">
+          <div class="form-row">
+            <div class="input-group">
+              <label>Symbol</label>
+              <input type="text" 
+                     [(ngModel)]="orderForm.symbol" 
+                     name="symbol"
+                     placeholder="e.g., AAPL"
+                     required
+                     style="text-transform: uppercase">
+            </div>
+            
+            <div class="input-group">
+              <label>Quantity</label>
+              <input type="number" 
+                     [(ngModel)]="orderForm.quantity" 
+                     name="quantity"
+                     min="1"
+                     required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="input-group">
+              <label>Order Type</label>
+              <select [(ngModel)]="orderForm.type" name="type">
+                <option value="market">Market</option>
+                <option value="limit">Limit</option>
+                <option value="stop">Stop</option>
+              </select>
+            </div>
+            
+            <div class="input-group" *ngIf="orderForm.type === 'limit'">
+              <label>Price</label>
+              <input type="number" 
+                     [(ngModel)]="orderForm.price" 
+                     name="price"
+                     step="0.01"
+                     min="0.01">
+            </div>
+          </div>
+
+          <div class="order-actions">
+            <button type="button" 
+                    class="btn btn-success order-btn"
+                    [class.active]="orderForm.side === 'buy'"
+                    (click)="orderForm.side = 'buy'">
+              BUY
+            </button>
+            <button type="button" 
+                    class="btn btn-danger order-btn"
+                    [class.active]="orderForm.side === 'sell'"
+                    (click)="orderForm.side = 'sell'">
+              SELL
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn">
+            Place {{ orderForm.side.toUpperCase() }} Order
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- AI Recommendations -->
+    <div class="recommendations-section">
+      <div class="card">
+        <h2>AI Recommendations</h2>
+        <div class="recommendations">
+          <div class="recommendation-item">
+            <div class="recommendation-header">
+              <span class="recommendation-symbol">NVDA</span>
+              <span class="recommendation-action buy">STRONG BUY</span>
+            </div>
+            <p class="recommendation-reason">
+              Technical indicators show bullish momentum with RSI at 35 and volume spike
+            </p>
+            <div class="recommendation-metrics">
+              <span>Confidence: 92%</span>
+              <span>Target: $450</span>
+            </div>
+          </div>
+
+          <div class="recommendation-item">
+            <div class="recommendation-header">
+              <span class="recommendation-symbol">TSLA</span>
+              <span class="recommendation-action sell">SELL</span>
+            </div>
+            <p class="recommendation-reason">
+              Overbought conditions detected, potential resistance at current levels
+            </p>
+            <div class="recommendation-metrics">
+              <span>Confidence: 78%</span>
+              <span>Target: $235</span>
+            </div>
+          </div>
+
+          <div class="recommendation-item">
+            <div class="recommendation-header">
+              <span class="recommendation-symbol">AAPL</span>
+              <span class="recommendation-action hold">HOLD</span>
+            </div>
+            <p class="recommendation-reason">
+              Consolidation phase expected, wait for breakout confirmation
+            </p>
+            <div class="recommendation-metrics">
+              <span>Confidence: 85%</span>
+              <span>Target: $190</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
