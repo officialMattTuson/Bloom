@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="header-content">
+    <div class="header-left">
+      <h1 class="logo">
+        <span class="logo-icon">🤖</span>
+        AI Trader
+      </h1>
+    </div>
+    
+    <div class="header-center">
+      <div class="trading-status">
+        <div class="status-indicator active"></div>
+        <span>Paper Trading Active</span>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="account-info">
+        <div class="balance">
+          <span class="balance-label">Portfolio Value</span>
+          <span class="balance-amount">${{ totalBalance | number:'1.2-2' }}</span>
+        </div>
+        <div class="pnl" [class]="dailyPnLClass">
+          <span class="pnl-amount">{{ dailyPnL >= 0 ? '+' : '' }}${{ dailyPnL | number:'1.2-2' }}</span>
+          <span class="pnl-percent">({{ dailyPnLPercent >= 0 ? '+' : '' }}{{ dailyPnLPercent }}%)</span>
+        </div>
+      </div>
+      
+      <div class="user-menu">
+        <div class="user-avatar">
+          <span>JD</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
