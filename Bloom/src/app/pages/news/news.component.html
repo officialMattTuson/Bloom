@@ -1,0 +1,73 @@
+<div class="news-page fade-in">
+  <div class="news-header">
+    <h1>Market News</h1>
+    <p class="news-subtitle">Stay informed with the latest market-moving news and analysis</p>
+  </div>
+
+  <div class="news-filters">
+    <div class="category-filters">
+      <button *ngFor="let category of categories"
+              class="btn"
+              [class.btn-primary]="selectedCategory === category"
+              (click)="selectedCategory = category">
+        {{ category === 'all' ? 'All News' : category }}
+      </button>
+    </div>
+  </div>
+
+  <div class="news-grid">
+    <div *ngFor="let article of filteredNews" class="news-card card">
+      <div class="news-header-row">
+        <div class="news-meta">
+          <span class="news-source">{{ article.source }}</span>
+          <span class="news-time">{{ article.time }}</span>
+        </div>
+        <div class="news-indicators">
+          <span class="category-badge" [class]="getCategoryClass(article.category)">
+            {{ article.category }}
+          </span>
+          <span class="impact-badge" [class]="getImpactClass(article.impact)">
+            {{ article.impact }}
+          </span>
+        </div>
+      </div>
+
+      <h3 class="news-title">{{ article.title }}</h3>
+      <p class="news-summary">{{ article.summary }}</p>
+
+      <div class="news-footer">
+        <div class="relevant-symbols">
+          <span class="symbols-label">Relevant:</span>
+          <div class="symbol-tags">
+            <span *ngFor="let symbol of article.relevantSymbols" class="symbol-tag">
+              {{ symbol }}
+            </span>
+          </div>
+        </div>
+        <button class="btn btn-primary read-more-btn">Read More</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="market-summary card">
+    <h2>Market Summary</h2>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="summary-label">S&P 500</div>
+        <div class="summary-value text-success">4,785.23 (+0.8%)</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">NASDAQ</div>
+        <div class="summary-value text-success">15,234.12 (+1.2%)</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">DOW</div>
+        <div class="summary-value text-danger">38,456.78 (-0.3%)</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">VIX</div>
+        <div class="summary-value text-danger">18.45 (+5.2%)</div>
+      </div>
+    </div>
+  </div>
+</div>
