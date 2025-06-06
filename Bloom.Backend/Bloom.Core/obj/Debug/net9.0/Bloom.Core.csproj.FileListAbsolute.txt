@@ -1,0 +1,12 @@
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\bin\Debug\net9.0\Bloom.Core.deps.json
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\bin\Debug\net9.0\Bloom.Core.dll
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\bin\Debug\net9.0\Bloom.Core.pdb
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.AssemblyInfoInputs.cache
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.AssemblyInfo.cs
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.csproj.CoreCompileInputs.cache
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.sourcelink.json
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.dll
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\refint\Bloom.Core.dll
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\Bloom.Core.pdb
+C:\Users\MatthewTuson\Bloom\Bloom.Backend\Bloom.Core\obj\Debug\net9.0\ref\Bloom.Core.dll
