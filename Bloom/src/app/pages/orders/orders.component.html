@@ -1,0 +1,73 @@
+<div class="orders-page fade-in">
+  <div class="orders-header">
+    <h1>Order History</h1>
+    <p class="orders-subtitle">Track your trading activity and order status</p>
+  </div>
+
+  <div class="orders-filters">
+    <div class="filter-buttons">
+      <button class="btn" 
+              [class.btn-primary]="filterStatus === 'all'"
+              (click)="onFilterChange('all')">
+        All Orders
+      </button>
+      <button class="btn" 
+              [class.btn-primary]="filterStatus === 'filled'"
+              (click)="onFilterChange('filled')">
+        Filled
+      </button>
+      <button class="btn" 
+              [class.btn-primary]="filterStatus === 'pending'"
+              (click)="onFilterChange('pending')">
+        Pending
+      </button>
+      <button class="btn" 
+              [class.btn-primary]="filterStatus === 'cancelled'"
+              (click)="onFilterChange('cancelled')">
+        Cancelled
+      </button>
+    </div>
+  </div>
+
+  <div class="orders-table card">
+    <div class="table-header">
+      <div class="header-cell">Order ID</div>
+      <div class="header-cell">Symbol</div>
+      <div class="header-cell">Side</div>
+      <div class="header-cell">Type</div>
+      <div class="header-cell">Quantity</div>
+      <div class="header-cell">Price</div>
+      <div class="header-cell">Total</div>
+      <div class="header-cell">Status</div>
+      <div class="header-cell">Time</div>
+    </div>
+
+    <div *ngFor="let order of filteredOrders" class="table-row">
+      <div class="table-cell">
+        <span class="order-id">{{ order.orderId }}</span>
+      </div>
+      <div class="table-cell">
+        <span class="symbol">{{ order.symbol }}</span>
+      </div>
+      <div class="table-cell" [class]="getSideClass(order.side)">
+        <span class="side-badge">{{ order.side.toUpperCase() }}</span>
+      </div>
+      <div class="table-cell">{{ order.type.toUpperCase() }}</div>
+      <div class="table-cell">{{ order.quantity }}</div>
+      <div class="table-cell">${{ order.executedPrice | number:'1.2-2' }}</div>
+      <div class="table-cell">${{ order.total | number:'1.2-2' }}</div>
+      <div class="table-cell">
+        <span class="status-badge" [class]="getStatusClass(order.status)">
+          {{ order.status.toUpperCase() }}
+        </span>
+      </div>
+      <div class="table-cell">{{ formatDate(order.timestamp) }}</div>
+    </div>
+
+    <div *ngIf="filteredOrders.length === 0" class="no-orders">
+      <div class="no-orders-icon">📋</div>
+      <h3>No Orders Found</h3>
+      <p>{{ filterStatus === 'all' ? 'You haven\'t placed any orders yet.' : 'No orders match the selected filter.' }}</p>
+    </div>
+  </div>
+</div>
