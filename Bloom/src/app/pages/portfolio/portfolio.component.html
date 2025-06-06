@@ -1,0 +1,66 @@
+<div class="portfolio-page fade-in">
+  <div class="portfolio-header">
+    <h1>Portfolio</h1>
+    <p class="portfolio-subtitle">Track your investments and performance</p>
+  </div>
+
+  <div class="portfolio-overview card">
+    <div class="overview-stats grid grid-4">
+      <div class="stat-item">
+        <div class="stat-label">Total Value</div>
+        <div class="stat-value">${{ portfolioStats.totalValue | number:'1.2-2' }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Daily P&L</div>
+        <div class="stat-value" [class]="getPnLClass(portfolioStats.dailyChange)">
+          {{ portfolioStats.dailyChange >= 0 ? '+' : '' }}${{ portfolioStats.dailyChange | number:'1.2-2' }}
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Total Return</div>
+        <div class="stat-value text-success">
+          +${{ portfolioStats.totalReturn | number:'1.2-2' }}
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Return %</div>
+        <div class="stat-value text-success">
+          +{{ portfolioStats.totalReturnPercent }}%
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="positions-section">
+    <div class="card">
+      <h2>Current Positions</h2>
+      <div class="positions-table">
+        <div class="table-header">
+          <div class="header-cell">Symbol</div>
+          <div class="header-cell">Quantity</div>
+          <div class="header-cell">Avg Price</div>
+          <div class="header-cell">Current Price</div>
+          <div class="header-cell">Market Value</div>
+          <div class="header-cell">Unrealized P&L</div>
+          <div class="header-cell">Return %</div>
+        </div>
+        
+        <div *ngFor="let position of positions" class="table-row">
+          <div class="table-cell symbol-cell">
+            <span class="symbol">{{ position.symbol }}</span>
+          </div>
+          <div class="table-cell">{{ position.quantity }}</div>
+          <div class="table-cell">${{ position.avgPrice | number:'1.2-2' }}</div>
+          <div class="table-cell">${{ position.currentPrice | number:'1.2-2' }}</div>
+          <div class="table-cell">${{ position.value | number:'1.2-2' }}</div>
+          <div class="table-cell" [class]="getPnLClass(position.unrealizedPnL)">
+            {{ position.unrealizedPnL >= 0 ? '+' : '' }}${{ position.unrealizedPnL | number:'1.2-2' }}
+          </div>
+          <div class="table-cell" [class]="getPnLClass(position.unrealizedPnLPercent)">
+            {{ position.unrealizedPnLPercent >= 0 ? '+' : '' }}{{ position.unrealizedPnLPercent | number:'1.2-2' }}%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
