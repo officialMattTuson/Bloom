@@ -1,0 +1,212 @@
+<div class="settings-page fade-in">
+  <div class="settings-header">
+    <h1>Settings</h1>
+    <p class="settings-subtitle">Configure your AI trading preferences and system settings</p>
+  </div>
+
+  <div class="settings-content">
+    <!-- Trading Settings -->
+    <div class="settings-section card">
+      <h2>Trading Settings</h2>
+      <div class="settings-grid">
+        <div class="input-group">
+          <label>Max Position Size ($)</label>
+          <input type="number" 
+                 [(ngModel)]="settings.trading.maxPositionSize" 
+                 min="100" 
+                 step="100">
+        </div>
+        
+        <div class="input-group">
+          <label>Stop Loss (%)</label>
+          <input type="number" 
+                 [(ngModel)]="settings.trading.stopLossPercent" 
+                 min="1" 
+                 max="50" 
+                 step="0.5">
+        </div>
+        
+        <div class="input-group">
+          <label>Take Profit (%)</label>
+          <input type="number" 
+                 [(ngModel)]="settings.trading.takeProfitPercent" 
+                 min="1" 
+                 max="100" 
+                 step="0.5">
+        </div>
+        
+        <div class="input-group">
+          <label>Risk Per Trade (%)</label>
+          <input type="number" 
+                 [(ngModel)]="settings.trading.riskPerTrade" 
+                 min="0.5" 
+                 max="10" 
+                 step="0.5">
+        </div>
+        
+        <div class="input-group">
+          <label>Max Daily Trades</label>
+          <input type="number" 
+                 [(ngModel)]="settings.trading.maxDailyTrades" 
+                 min="1" 
+                 max="50">
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.trading.autoTrade">
+            <span class="checkmark"></span>
+            Enable Auto Trading
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Settings -->
+    <div class="settings-section card">
+      <h2>AI Configuration</h2>
+      <div class="settings-grid">
+        <div class="input-group">
+          <label>Minimum Confidence (%)</label>
+          <input type="range" 
+                 [(ngModel)]="settings.ai.confidence" 
+                 min="50" 
+                 max="95" 
+                 step="5">
+          <span class="range-value">{{ settings.ai.confidence }}%</span>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.ai.useNews">
+            <span class="checkmark"></span>
+            Use News Analysis
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.ai.useTechnicalAnalysis">
+            <span class="checkmark"></span>
+            Technical Analysis
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.ai.useVolumeAnalysis">
+            <span class="checkmark"></span>
+            Volume Analysis
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.ai.sentiment">
+            <span class="checkmark"></span>
+            Sentiment Analysis
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="settings-section card">
+      <h2>Notifications</h2>
+      <div class="settings-grid">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.email">
+            <span class="checkmark"></span>
+            Email Notifications
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.push">
+            <span class="checkmark"></span>
+            Push Notifications
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.orderFills">
+            <span class="checkmark"></span>
+            Order Fill Alerts
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.priceAlerts">
+            <span class="checkmark"></span>
+            Price Alerts
+          </label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.newsAlerts">
+            <span class="checkmark"></span>
+            News Alerts
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display Settings -->
+    <div class="settings-section card">
+      <h2>Display & Preferences</h2>
+      <div class="settings-grid">
+        <div class="input-group">
+          <label>Theme</label>
+          <select [(ngModel)]="settings.display.theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="auto">Auto</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label>Currency</label>
+          <select [(ngModel)]="settings.display.currency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="JPY">JPY (¥)</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label>Timezone</label>
+          <select [(ngModel)]="settings.display.timezone">
+            <option value="UTC">UTC</option>
+            <option value="EST">EST</option>
+            <option value="PST">PST</option>
+            <option value="GMT">GMT</option>
+          </select>
+        </div>
+        
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.display.compactView">
+            <span class="checkmark"></span>
+            Compact View
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="settings-actions">
+      <button class="btn btn-primary" (click)="saveSettings()">
+        Save Settings
+      </button>
+      <button class="btn btn-danger" (click)="resetSettings()">
+        Reset to Default
+      </button>
+    </div>
+  </div>
+</div>
