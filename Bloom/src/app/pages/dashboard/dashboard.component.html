@@ -1,0 +1,142 @@
+<div class="dashboard fade-in">
+  <div class="dashboard-header">
+    <h1>Trading Dashboard</h1>
+    <p class="dashboard-subtitle">Monitor your AI trading performance and market insights</p>
+  </div>
+
+  <!-- Portfolio Stats -->
+  <div class="stats-grid grid grid-4">
+    <div class="stat-card card">
+      <div class="stat-header">
+        <h3>Portfolio Value</h3>
+        <span class="stat-icon">💰</span>
+      </div>
+      <div class="stat-value">${{ portfolioStats.totalValue | number:'1.2-2' }}</div>
+      <div class="stat-change" [class]="getChangeClass(portfolioStats.dailyChange)">
+        {{ portfolioStats.dailyChange >= 0 ? '+' : '' }}${{ portfolioStats.dailyChange | number:'1.2-2' }}
+        ({{ portfolioStats.dailyChangePercent >= 0 ? '+' : '' }}{{ portfolioStats.dailyChangePercent }}%)
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-header">
+        <h3>Total Return</h3>
+        <span class="stat-icon">📈</span>
+      </div>
+      <div class="stat-value">${{ portfolioStats.totalReturn | number:'1.2-2' }}</div>
+      <div class="stat-change text-success">
+        +{{ portfolioStats.totalReturnPercent }}%
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-header">
+        <h3>Active Positions</h3>
+        <span class="stat-icon">📊</span>
+      </div>
+      <div class="stat-value">{{ portfolioStats.positions }}</div>
+      <div class="stat-change text-muted">
+        Avg Return: {{ portfolioStats.avgReturn }}%
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-header">
+        <h3>AI Confidence</h3>
+        <span class="stat-icon">🤖</span>
+      </div>
+      <div class="stat-value">87%</div>
+      <div class="stat-change text-success">
+        High Confidence
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-content grid grid-2">
+    <!-- Chart Section -->
+    <div class="chart-section">
+      <div class="card">
+        <div class="chart-header">
+          <h2>Portfolio Performance</h2>
+          <div class="chart-controls">
+            <button class="btn btn-primary">1D</button>
+            <button class="btn">1W</button>
+            <button class="btn">1M</button>
+            <button class="btn">1Y</button>
+          </div>
+        </div>
+        <app-chart></app-chart>
+      </div>
+    </div>
+
+    <!-- Top Performers -->
+    <div class="performers-section">
+      <div class="card">
+        <h2>Top Performers</h2>
+        <div class="performers-list">
+          <div *ngFor="let stock of topPerformers" class="performer-item">
+            <div class="performer-info">
+              <span class="performer-symbol">{{ stock.symbol }}</span>
+              <span class="performer-price">${{ stock.price | number:'1.2-2' }}</span>
+            </div>
+            <div class="performer-change" [class]="getChangeClass(stock.change)">
+              {{ stock.change >= 0 ? '+' : '' }}{{ stock.change }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Trades -->
+    <div class="trades-section">
+      <div class="card">
+        <h2>Recent Trades</h2>
+        <div class="trades-list">
+          <div *ngFor="let trade of recentTrades" class="trade-item">
+            <div class="trade-info">
+              <div class="trade-symbol">{{ trade.symbol }}</div>
+              <div class="trade-details">
+                <span class="trade-type" [class]="getTradeTypeClass(trade.type)">{{ trade.type }}</span>
+                <span class="trade-quantity">{{ trade.quantity }} shares</span>
+              </div>
+            </div>
+            <div class="trade-price">
+              <div class="trade-amount">${{ trade.price | number:'1.2-2' }}</div>
+              <div class="trade-time">{{ trade.time }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="insights-section">
+      <div class="card">
+        <h2>AI Insights</h2>
+        <div class="insights-list">
+          <div class="insight-item">
+            <div class="insight-icon">🎯</div>
+            <div class="insight-content">
+              <h4>Strong Buy Signal</h4>
+              <p>NVDA showing bullish momentum with high trading volume</p>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon">⚠️</div>
+            <div class="insight-content">
+              <h4>Market Volatility</h4>
+              <p>Increased volatility expected due to Fed announcement</p>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon">📊</div>
+            <div class="insight-content">
+              <h4>Technical Analysis</h4>
+              <p>RSI indicates oversold conditions in tech sector</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
