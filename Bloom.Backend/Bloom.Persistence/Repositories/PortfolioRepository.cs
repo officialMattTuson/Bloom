@@ -29,6 +29,7 @@ namespace Bloom.Persistence.Repositories
     public async Task CreateAsync(Portfolio portfolio)
     {
       await _portfolios.InsertOneAsync(portfolio);
+
     }
 
     public async Task<bool> UpdateAsync(string id, Portfolio portfolio)

@@ -26,6 +26,8 @@ namespace Bloom.API.Services
         public async Task CreateAsync(Portfolio portfolio)
         {
             var summary = CalculateSummary(portfolio.Positions ?? []);
+            portfolio.CreatedAt = DateTime.UtcNow;
+            portfolio.LastUpdatedAt = DateTime.UtcNow;
             portfolio.Summary = summary;
 
             await _portfolioRepository.CreateAsync(portfolio);
@@ -34,6 +36,7 @@ namespace Bloom.API.Services
         public async Task<bool> UpdateAsync(string id, Portfolio updatedPortfolio)
         {
             var summary = CalculateSummary(updatedPortfolio.Positions ?? []);
+            updatedPortfolio.LastUpdatedAt = DateTime.UtcNow;
             updatedPortfolio.Summary = summary;
 
             return await _portfolioRepository.UpdateAsync(id, updatedPortfolio);

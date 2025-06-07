@@ -10,5 +10,7 @@ namespace Bloom.Core.Models
     public string? Id { get; set; }
     public required PortfolioSummary Summary { get; set; }
     public List<Position>? Positions { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdatedAt { get; set; }
   }
 }
