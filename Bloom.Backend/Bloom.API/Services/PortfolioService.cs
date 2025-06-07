@@ -1,44 +1,51 @@
-using Bloom.API.Services.Interfaces;
 using Bloom.Core.Models;
+using Bloom.Persistence.Repositories.Interfaces;
+using Bloom.API.Services.Interfaces;
 
 namespace Bloom.API.Services
 {
     public class PortfolioService : IPortfolioService
     {
-        public Portfolio BuildPortfolio()
+        private readonly IPortfolioRepository _portfolioRepository;
+
+        public PortfolioService(IPortfolioRepository portfolioRepository)
         {
-            var positions = GetMockPositions();
+            _portfolioRepository = portfolioRepository;
+        }
+
+        public async Task<List<Portfolio>> GetAllAsync()
+        {
+            return await _portfolioRepository.GetAllAsync();
+        }
+
+        public async Task CreateAsync(Portfolio portfolio)
+        {
+            var summary = CalculateSummary(portfolio.Positions ?? []);
+            portfolio.Summary = summary;
+
+            await _portfolioRepository.InsertAsync(portfolio);
+        }
+
+        private static PortfolioSummary CalculateSummary(List<Position> positions)
+        {
+            if (!positions.Any())
+                return new PortfolioSummary();
 
             var totalValue = positions.Sum(p => p.Value);
             var totalCost = positions.Sum(p => p.CostBasis);
-            var totalReturn = positions.Sum(p => p.UnrealizedGain);
-            var avgReturn = positions.Average(p => p.ReturnPercent);
+            var totalReturn = totalValue - totalCost;
+            var returnPercent = totalCost == 0 ? 0 : Math.Round(totalReturn / totalCost * 100, 2);
 
-            var summary = new PortfolioSummary
+            return new PortfolioSummary
             {
                 TotalValue = totalValue,
-                DailyChange = 1250.5m, // Optional, could be calculated later
-                DailyChangePercent = 2.56m,
+                DailyChange = 0, // You can enhance this later with price history
+                DailyChangePercent = 0,
                 TotalReturn = totalReturn,
-                TotalReturnPercent = totalCost == 0 ? 0 : (totalReturn / totalCost) * 100,
+                TotalReturnPercent = returnPercent,
                 Positions = positions.Count,
-                AverageReturn = Math.Round(avgReturn, 2)
-            };
-
-            return new Portfolio
-            {
-                Summary = summary,
-                Positions = positions
+                AverageReturn = Math.Round(positions.Average(p => p.ReturnPercent), 2)
             };
         }
-
-        private static List<Position> GetMockPositions() => new()
-        {
-            new() { Symbol = "AAPL", Quantity = 100, AveragePrice = 175.5m, CurrentPrice = 185.25m },
-            new() { Symbol = "GOOGL", Quantity = 15, AveragePrice = 2750m, CurrentPrice = 2820.5m },
-            new() { Symbol = "MSFT", Quantity = 50, AveragePrice = 365.75m, CurrentPrice = 378.9m },
-            new() { Symbol = "NVDA", Quantity = 25, AveragePrice = 380.25m, CurrentPrice = 425.8m },
-            new() { Symbol = "TSLA", Quantity = 30, AveragePrice = 265.5m, CurrentPrice = 248.5m }
-        };
     }
 }

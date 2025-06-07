@@ -1,7 +1,13 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Bloom.Core.Models
 {
     public class Position
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id { get; set; }
         public required string Symbol { get; set; }
         public int Quantity { get; set; }
         public decimal AveragePrice { get; set; }

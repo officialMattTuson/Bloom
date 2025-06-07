@@ -4,6 +4,7 @@ namespace Bloom.API.Services.Interfaces
 {
   public interface IPortfolioService
   {
-    Portfolio BuildPortfolio();
+    Task<List<Portfolio>> GetAllAsync();
+    Task CreateAsync(Portfolio portfolio);
   }
 }
