@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Bloom.Core.Enums;
 
 namespace Bloom.Core.Models
 {

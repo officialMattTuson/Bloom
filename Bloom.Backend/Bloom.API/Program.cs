@@ -24,6 +24,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+builder.Services.AddScoped<IIndicatorRuleRepository, IndicatorRuleRepository>();
+builder.Services.AddScoped<ITickerIndicatorRepository, TickerIndicatorRepository>();
+builder.Services.AddScoped<ITradeLogRepository, TradeLogRepository>();
+builder.Services.AddScoped<ITradingService, TradingService>();
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<BloomDbContext>();

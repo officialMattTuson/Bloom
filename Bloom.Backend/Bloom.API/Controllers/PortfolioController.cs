@@ -9,10 +9,12 @@ namespace Bloom.API.Controllers
   public class PortfolioController : ControllerBase
   {
     private readonly IPortfolioService _portfolioService;
+    private readonly ITradingService _tradingService;
 
-    public PortfolioController(IPortfolioService portfolioService)
+    public PortfolioController(IPortfolioService portfolioService, ITradingService tradingService)
     {
       _portfolioService = portfolioService;
+      _tradingService = tradingService;
     }
 
     [HttpGet]
@@ -73,6 +75,34 @@ namespace Bloom.API.Controllers
       if (!success)
         return NotFound();
       return NoContent();
+    }
+
+    [HttpPost("{id}/evaluate")]
+    public async Task<IActionResult> EvaluateAndExecuteRules(string id)
+    {
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null) return NotFound("Portfolio not found");
+
+      var results = await _tradingService.EvaluateAndExecuteAsync(id);
+      return Ok(results);
+    }
+
+    [HttpGet("{id}/positions")]
+    public async Task<IActionResult> GetPositions(string id)
+    {
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null) return NotFound("Portfolio not found");
+
+      return Ok(portfolio.Positions ?? new List<Position>());
+    }
+
+    [HttpGet("{id}/summary")]
+    public async Task<IActionResult> GetSummary(string id)
+    {
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null) return NotFound("Portfolio not found");
+
+      return Ok(portfolio.Summary);
     }
 
   }
