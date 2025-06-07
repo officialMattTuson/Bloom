@@ -175,4 +175,5 @@ workspace.json
 *.pdb
 bin/
 obj/
-
+appsettings.*.json
+!appsettings.json 
