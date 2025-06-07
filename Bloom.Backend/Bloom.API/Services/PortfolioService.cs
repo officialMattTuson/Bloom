@@ -18,12 +18,30 @@ namespace Bloom.API.Services
             return await _portfolioRepository.GetAllAsync();
         }
 
+        public async Task<Portfolio?> GetByIdAsync(string id)
+        {
+            return await _portfolioRepository.GetByIdAsync(id);
+        }
+
         public async Task CreateAsync(Portfolio portfolio)
         {
             var summary = CalculateSummary(portfolio.Positions ?? []);
             portfolio.Summary = summary;
 
-            await _portfolioRepository.InsertAsync(portfolio);
+            await _portfolioRepository.CreateAsync(portfolio);
+        }
+
+        public async Task<bool> UpdateAsync(string id, Portfolio updatedPortfolio)
+        {
+            var summary = CalculateSummary(updatedPortfolio.Positions ?? []);
+            updatedPortfolio.Summary = summary;
+
+            return await _portfolioRepository.UpdateAsync(id, updatedPortfolio);
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            return await _portfolioRepository.DeleteAsync(id);
         }
 
         private static PortfolioSummary CalculateSummary(List<Position> positions)
@@ -39,7 +57,7 @@ namespace Bloom.API.Services
             return new PortfolioSummary
             {
                 TotalValue = totalValue,
-                DailyChange = 0, // You can enhance this later with price history
+                DailyChange = 0,
                 DailyChangePercent = 0,
                 TotalReturn = totalReturn,
                 TotalReturnPercent = returnPercent,

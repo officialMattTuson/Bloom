@@ -5,6 +5,10 @@ namespace Bloom.Persistence.Repositories.Interfaces
   public interface IPortfolioRepository
   {
     Task<List<Portfolio>> GetAllAsync();
-    Task InsertAsync(Portfolio portfolio);
+    Task<Portfolio?> GetByIdAsync(string id);
+    Task CreateAsync(Portfolio portfolio);
+    Task<bool> UpdateAsync(string id, Portfolio portfolio);
+    Task<bool> DeleteAsync(string id);
+
   }
 }

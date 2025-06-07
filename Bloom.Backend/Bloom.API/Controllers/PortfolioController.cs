@@ -22,6 +22,15 @@ namespace Bloom.API.Controllers
       return Ok(portfolios);
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Portfolio>> GetById(string id)
+    {
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null)
+        return NotFound();
+      return Ok(portfolio);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreatePortfolio([FromBody] CreatePortfolioRequest request)
     {
@@ -46,6 +55,24 @@ namespace Bloom.API.Controllers
 
       await _portfolioService.CreateAsync(portfolio);
       return Ok();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(string id, [FromBody] Portfolio updated)
+    {
+      var success = await _portfolioService.UpdateAsync(id, updated);
+      if (!success)
+        return NotFound();
+      return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(string id)
+    {
+      var success = await _portfolioService.DeleteAsync(id);
+      if (!success)
+        return NotFound();
+      return NoContent();
     }
 
   }
