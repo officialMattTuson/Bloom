@@ -74,13 +74,19 @@ namespace Bloom.API.Controllers
       return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] Portfolio updated)
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateMetadata(string id, [FromBody] UpdatePortfolioRequest request)
     {
-      var success = await _portfolioService.UpdateAsync(id, updated);
-      if (!success)
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null)
         return NotFound();
-      return NoContent();
+
+      portfolio.Name = request.Name;
+      portfolio.Description = request.Description;
+      portfolio.LastUpdatedAt = DateTime.UtcNow;
+
+      var success = await _portfolioService.UpdateAsync(id, portfolio);
+      return success ? NoContent() : StatusCode(500);
     }
 
     [HttpDelete("{id}")]
@@ -109,6 +115,19 @@ namespace Bloom.API.Controllers
       if (portfolio == null) return NotFound("Portfolio not found");
 
       return Ok(portfolio.Positions ?? new List<Position>());
+    }
+
+    [HttpGet("{id}/metadata")]
+    public async Task<IActionResult> GetPortfolioMetaData(string id)
+    {
+      var portfolio = await _portfolioService.GetByIdAsync(id);
+      if (portfolio == null) return NotFound("Portfolio not found");
+
+      return Ok(new
+      {
+        portfolio.Name,
+        portfolio.Description,
+      });
     }
 
     [HttpGet("{id}/summary")]
