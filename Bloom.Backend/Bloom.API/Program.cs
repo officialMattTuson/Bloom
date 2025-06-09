@@ -28,6 +28,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 builder.Services.AddScoped<ITradingService, TradingService>();
 builder.Services.AddScoped<ITradeExecutionService, TradeExecutionService>();
+builder.Services.AddScoped<IIndicatorRuleService, IndicatorRuleService>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 builder.Services.AddScoped<IIndicatorRuleRepository, IndicatorRuleRepository>();

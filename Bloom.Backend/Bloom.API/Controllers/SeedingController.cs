@@ -8,23 +8,13 @@ namespace Bloom.API.Controllers
   [Route("api/[controller]")]
   public class SeederController : ControllerBase
   {
-    private readonly IMongoCollection<IndicatorRule> _rules;
     private readonly IMongoCollection<TickerIndicatorData> _indicators;
     private readonly IMongoCollection<PortfolioTransaction> _transactions;
 
     public SeederController(Bloom.Persistence.BloomDbContext context)
     {
-      _rules = context.Database.GetCollection<IndicatorRule>("IndicatorRules");
       _indicators = context.Database.GetCollection<TickerIndicatorData>("TickerIndicators");
       _transactions = context.Database.GetCollection<PortfolioTransaction>("PortfolioTransactions");
-    }
-
-    [HttpPost("rule")]
-    public async Task<IActionResult> InsertRule([FromBody] IndicatorRule rule)
-    {
-      rule.CreatedAt = DateTime.UtcNow;
-      await _rules.InsertOneAsync(rule);
-      return Ok(rule);
     }
 
     [HttpPost("indicator")]
