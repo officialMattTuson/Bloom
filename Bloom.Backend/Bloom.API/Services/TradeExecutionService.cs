@@ -21,14 +21,20 @@ namespace Bloom.API.Services
 
     public async Task ExecuteTradeAsync(TradeLog log)
     {
-      var portfolio = await _portfolioRepo.GetByIdAsync(log.PortfolioId) ?? throw new InvalidOperationException("Portfolio not found");
+      var portfolio = await _portfolioRepo.GetByIdAsync(log.PortfolioId);
+      if (portfolio == null) throw new InvalidOperationException("Portfolio not found");
+
       var positions = portfolio.Positions ?? new List<Position>();
       var position = positions.FirstOrDefault(p => p.Symbol == log.Symbol);
 
       decimal realizedGain = 0;
+      decimal totalCost = log.Price * log.Quantity;
 
       if (log.Action == TradeAction.Buy)
       {
+        if (portfolio.CashBalance < totalCost)
+          throw new InvalidOperationException("Insufficient cash to buy");
+
         if (position == null)
         {
           position = new Position
@@ -42,11 +48,13 @@ namespace Bloom.API.Services
         }
         else
         {
-          var totalCost = position.AveragePrice * position.Quantity + log.Price * log.Quantity;
+          var newCost = position.AveragePrice * position.Quantity + totalCost;
           position.Quantity += log.Quantity;
-          position.AveragePrice = totalCost / position.Quantity;
+          position.AveragePrice = newCost / position.Quantity;
           position.CurrentPrice = log.Price;
         }
+
+        portfolio.CashBalance -= totalCost;
       }
       else if (log.Action == TradeAction.Sell)
       {
@@ -64,19 +72,18 @@ namespace Bloom.API.Services
         portfolio.Summary.RealizedGainPercent = portfolio.Summary.TotalValue > 0
             ? Math.Round(portfolio.Summary.RealizedGainTotal / portfolio.Summary.TotalValue * 100, 2)
             : 0;
+
+        portfolio.CashBalance += totalCost;
       }
 
       portfolio.Positions = positions;
       portfolio.Summary.TotalValue = positions.Sum(p => p.Value);
       portfolio.Summary.TotalReturn = positions.Sum(p => p.UnrealizedGain);
-      portfolio.Summary.TotalReturnPercent = positions.Count > 0 ? Math.Round(positions.Average(p => p.ReturnPercent), 2) : 0;
+      portfolio.Summary.TotalReturnPercent = positions.Count > 0
+          ? Math.Round(positions.Average(p => p.ReturnPercent), 2)
+          : 0;
       portfolio.Summary.AverageReturn = portfolio.Summary.TotalReturnPercent;
       portfolio.Summary.Positions = positions.Count;
-
-      if (log.Action == TradeAction.Sell && portfolio.Summary is PortfolioSummary summary)
-      {
-        summary.TotalReturn += realizedGain;
-      }
 
       await _portfolioRepo.UpdateAsync(portfolio.Id!, portfolio);
 
@@ -92,6 +99,7 @@ namespace Bloom.API.Services
         TradeLogId = log.Id,
         RealizedGain = realizedGain
       };
+
       await _transactionRepo.CreateAsync(transaction);
     }
   }

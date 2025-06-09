@@ -46,13 +46,19 @@ namespace Bloom.API.Controllers
         DailyChange = 0,
         DailyChangePercent = 0,
         Positions = positions.Count,
-        AverageReturn = Math.Round(positions.Average(p => p.ReturnPercent), 2)
+        AverageReturn = Math.Round(positions.Average(p => p.ReturnPercent), 2),
+        RealizedGainTotal = 0,
+        RealizedGainPercent = 0
       };
 
       var portfolio = new Portfolio
       {
         Summary = summary,
-        Positions = positions
+        Positions = positions,
+        InitialCapital = request.InitialCapital,
+        CashBalance = request.InitialCapital,
+        CreatedAt = DateTime.UtcNow,
+        LastUpdatedAt = DateTime.UtcNow
       };
 
       await _portfolioService.CreateAsync(portfolio);
