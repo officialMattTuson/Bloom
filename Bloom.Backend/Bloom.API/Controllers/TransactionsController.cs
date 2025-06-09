@@ -41,6 +41,8 @@ namespace Bloom.API.Controllers
 
       var summary = new
       {
+        portfolio.Name,
+        portfolio.Description,
         portfolio.Summary.TotalValue,
         portfolio.Summary.TotalReturn,
         portfolio.Summary.TotalReturnPercent,
@@ -49,7 +51,8 @@ namespace Bloom.API.Controllers
         portfolio.Summary.RealizedGainTotal,
         portfolio.Summary.RealizedGainPercent,
         portfolio.InitialCapital,
-        portfolio.CashBalance
+        portfolio.CashBalance,
+        NetWorth = portfolio.CashBalance + portfolio.Summary.TotalValue
       };
 
       return Ok(summary);

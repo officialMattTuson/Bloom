@@ -36,6 +36,13 @@ namespace Bloom.API.Controllers
     [HttpPost]
     public async Task<IActionResult> CreatePortfolio([FromBody] CreatePortfolioRequest request)
     {
+      if (request.InitialCapital <= 0)
+        return BadRequest("Initial capital must be greater than 0");
+
+      var totalInitialValue = request.Positions.Sum(p => p.Value);
+      if (totalInitialValue > request.InitialCapital)
+        return BadRequest("Initial positions exceed initial capital");
+
       var positions = request.Positions;
 
       var summary = new PortfolioSummary
@@ -53,10 +60,12 @@ namespace Bloom.API.Controllers
 
       var portfolio = new Portfolio
       {
+        Name = request.Name,
+        Description = request.Description,
         Summary = summary,
         Positions = positions,
         InitialCapital = request.InitialCapital,
-        CashBalance = request.InitialCapital,
+        CashBalance = request.InitialCapital - totalInitialValue,
         CreatedAt = DateTime.UtcNow,
         LastUpdatedAt = DateTime.UtcNow
       };
