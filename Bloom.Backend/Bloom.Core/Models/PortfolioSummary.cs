@@ -1,6 +1,6 @@
 namespace Bloom.Core.Models
 {
-  public class PortfolioSummary 
+  public class PortfolioSummary
   {
     public decimal TotalValue { get; set; }
     public decimal DailyChange { get; set; }
@@ -9,5 +9,7 @@ namespace Bloom.Core.Models
     public decimal TotalReturnPercent { get; set; }
     public decimal Positions { get; set; }
     public decimal AverageReturn { get; set; }
+    public decimal RealizedGainTotal { get; set; }
+    public decimal RealizedGainPercent { get; set; }
   }
 }

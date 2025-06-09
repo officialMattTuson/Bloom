@@ -21,11 +21,11 @@ namespace Bloom.API.Services
 
     public async Task ExecuteTradeAsync(TradeLog log)
     {
-      var portfolio = await _portfolioRepo.GetByIdAsync(log.PortfolioId);
-      if (portfolio == null) throw new Exception("Portfolio not found");
-
+      var portfolio = await _portfolioRepo.GetByIdAsync(log.PortfolioId) ?? throw new InvalidOperationException("Portfolio not found");
       var positions = portfolio.Positions ?? new List<Position>();
       var position = positions.FirstOrDefault(p => p.Symbol == log.Symbol);
+
+      decimal realizedGain = 0;
 
       if (log.Action == TradeAction.Buy)
       {
@@ -51,13 +51,19 @@ namespace Bloom.API.Services
       else if (log.Action == TradeAction.Sell)
       {
         if (position == null || position.Quantity < log.Quantity)
-          throw new Exception("Not enough shares to sell");
+          throw new InvalidOperationException("Not enough shares to sell");
 
+        realizedGain = (log.Price - position.AveragePrice) * log.Quantity;
         position.Quantity -= log.Quantity;
         if (position.Quantity == 0)
         {
           positions.Remove(position);
         }
+
+        portfolio.Summary.RealizedGainTotal += realizedGain;
+        portfolio.Summary.RealizedGainPercent = portfolio.Summary.TotalValue > 0
+            ? Math.Round(portfolio.Summary.RealizedGainTotal / portfolio.Summary.TotalValue * 100, 2)
+            : 0;
       }
 
       portfolio.Positions = positions;
@@ -66,6 +72,11 @@ namespace Bloom.API.Services
       portfolio.Summary.TotalReturnPercent = positions.Count > 0 ? Math.Round(positions.Average(p => p.ReturnPercent), 2) : 0;
       portfolio.Summary.AverageReturn = portfolio.Summary.TotalReturnPercent;
       portfolio.Summary.Positions = positions.Count;
+
+      if (log.Action == TradeAction.Sell && portfolio.Summary is PortfolioSummary summary)
+      {
+        summary.TotalReturn += realizedGain;
+      }
 
       await _portfolioRepo.UpdateAsync(portfolio.Id!, portfolio);
 
@@ -78,7 +89,8 @@ namespace Bloom.API.Services
         Quantity = log.Quantity,
         ExecutedAt = log.ExecutedAt,
         RuleId = log.RuleId,
-        TradeLogId = log.Id
+        TradeLogId = log.Id,
+        RealizedGain = realizedGain
       };
       await _transactionRepo.CreateAsync(transaction);
     }

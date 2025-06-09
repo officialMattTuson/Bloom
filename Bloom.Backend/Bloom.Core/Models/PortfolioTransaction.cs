@@ -18,5 +18,6 @@ namespace Bloom.Core.Models
     public DateTime ExecutedAt { get; set; }
     public string? RuleId { get; set; }
     public string? TradeLogId { get; set; }
+    public decimal? RealizedGain { get; set; }
   }
 }

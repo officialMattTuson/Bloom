@@ -6,5 +6,6 @@ namespace Bloom.Core.Models
     public required IndicatorRule Rule { get; set; }
     public bool Passed { get; set; }
     public string? Reason { get; set; }
+    public decimal? RealizedGain { get; set; }
   }
 }
