@@ -10,17 +10,20 @@ namespace Bloom.API.Services
     private readonly IIndicatorRuleRepository _ruleRepo;
     private readonly ITickerIndicatorRepository _indicatorRepo;
     private readonly ITradeLogRepository _tradeLogRepo;
+    private readonly ITradeExecutionService _tradeExecutionService;
 
     public TradingService(
         IPortfolioRepository portfolioRepo,
         IIndicatorRuleRepository ruleRepo,
         ITickerIndicatorRepository indicatorRepo,
-        ITradeLogRepository tradeLogRepo)
+        ITradeLogRepository tradeLogRepo,
+        ITradeExecutionService tradeExecutionService)
     {
       _portfolioRepo = portfolioRepo;
       _ruleRepo = ruleRepo;
       _indicatorRepo = indicatorRepo;
       _tradeLogRepo = tradeLogRepo;
+      _tradeExecutionService = tradeExecutionService;
     }
 
     public async Task<List<RuleEvaluationResult>> EvaluateAndExecuteAsync(string portfolioId)
@@ -76,6 +79,7 @@ namespace Bloom.API.Services
             Notes = "AI rule evaluation"
           };
           await _tradeLogRepo.CreateAsync(log);
+          await _tradeExecutionService.ExecuteTradeAsync(log);
         }
       }
 
